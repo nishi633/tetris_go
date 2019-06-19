@@ -10,6 +10,7 @@ const(
   displayRow int = 30
   displayColumn int = 12
   coldef = termbox.ColorDefault
+  fallSpan = 1 * time.Second
 )
 
 var screan [displayRow]string
@@ -21,7 +22,7 @@ func main() {
   defer termbox.Close()
   drawBlock(displayColumn/2, 0, square) // 初期表示
 
-  t := time.NewTicker(1 * time.Second)
+  t := time.NewTicker(fallSpan)
   defer t.Stop()
 
 	timerCh := make(chan bool)

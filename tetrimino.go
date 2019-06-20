@@ -6,8 +6,8 @@ import(
   "github.com/nsf/termbox-go"
 )
 
+// 次に落ちてくるブロック
 func nextTetrimino() Block {
-  // 次に落ちてくるブロック
   rand.Seed(time.Now().UnixNano())
   i := rand.Intn(len(blockList))
   return blockList[i]
@@ -15,19 +15,16 @@ func nextTetrimino() Block {
 }
 
 func drawBlock(x, y int, block Block) {
-  termbox.Clear(coldef, coldef)
   point := block.Point
   display := []rune(block.Display)[0]
-  width := 2
 
   for r := 0; r < len(point); r++ {
     for c := 0; c < len(point[r]); c++ {
       if point[r][c] {
-        termbox.SetCell((x+r)*width, y+c, display, coldef, coldef)
+        termbox.SetCell((x+c)*strWidth, y+r, display, coldef, coldef)
       }
     }
   }
-  termbox.Flush()
 }
 
 
@@ -40,6 +37,12 @@ type Block struct {
 
 var blockList = []Block {
   square,
+  rectangulare,
+  t,
+  z,
+  s,
+  l,
+  j,
 }
 
 var square = Block {
@@ -50,3 +53,51 @@ var square = Block {
   },
 }
 
+var rectangulare = Block {
+  Display: "長",
+  Point: [][]bool {
+    { true, true, true, true },
+  },
+}
+
+var t = Block {
+  Display: "ト",
+  Point: [][]bool {
+    { false, true, false },
+    { true, true, true },
+  },
+}
+
+var z = Block {
+  Display: "Ｚ",
+  Point: [][]bool {
+    { true, true, false },
+    { false, true, true },
+  },
+}
+
+var s = Block {
+  Display: "Ｓ",
+  Point: [][]bool {
+    { false, true, true },
+    { true, true, false },
+  },
+}
+
+var l = Block {
+  Display: "Ｌ",
+  Point: [][]bool {
+    { true, false },
+    { true, false },
+    { true, true },
+  },
+}
+
+var j = Block {
+  Display: "Ｌ",
+  Point: [][]bool {
+    { false, true },
+    { false, true },
+    { true, true },
+  },
+}

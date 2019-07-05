@@ -5,7 +5,7 @@ import(
 )
 
 var (
-  frame = map[string]int { "top": 2, "botton": 5, "right": 2, "left": 2 }
+  frame = map[string]int { "top": 2, "botton": 3, "right": 2, "left": 2 }
   wall = "⬜"
   screan [DisplayY][DisplayX] rune
 )

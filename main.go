@@ -10,7 +10,7 @@ const(
   DisplayX = 20
   DisplayY = 30
   Coldef = termbox.ColorDefault
-  FallSpan = 300 * time.Millisecond
+  FallSpan = 200 * time.Millisecond
   StrWidth = 2 //文字幅
 )
 
@@ -86,7 +86,7 @@ func canFall(shift int) bool {
   isMove := true
   for r := 0; r < len(block.Point); r++ {
     for c := 0; c < len(block.Point[r]); c++ {
-      if screan[y + r + shift][x + c] != 0 {
+      if block.Point[r][c] && screan[y + r + shift][x + c] != 0 {
         isMove = false
         break
       }
@@ -111,7 +111,7 @@ func KeyEventLoop(kch chan termbox.Key) {
             }
           case termbox.KeyArrowRight:
             //右キーを押された時の処理
-            if x < DisplayX - frame["right"] - len(block.Point) - 1{
+            if x + len(block.Point) < DisplayX - frame["right"] - 1 {
               x += 1
             }
           case termbox.KeyArrowDown:

@@ -40,6 +40,7 @@ func main() {
     block = nextTetrimino()
     x = DisplayX/2 - len(block.Point[0])/2 - 1
     y = frame["top"]
+    mainScrean()
 
 LOOP:
     for {
@@ -49,7 +50,7 @@ LOOP:
       case <-timerCh:
         break
       case <- blockCh:
-    //    captureBlock()
+        captureBlock()
         break LOOP
       default:
         break
@@ -78,7 +79,7 @@ func TimerLoop(tch, bch chan bool) {
 
     if canFall {
       termbox.Clear(Coldef, Coldef)
-      mainScrean()
+      drawScrean()
       drawBlock(x, y, block)
       termbox.Flush()
 

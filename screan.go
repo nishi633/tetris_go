@@ -37,7 +37,6 @@ func mainScrean() {
       screan[r][c] = wallRune
     }
   }
-  drawScrean()
 }
 
 func drawScrean() {
@@ -52,6 +51,7 @@ func captureBlock() {
   for r := 0; r < len(currentBlock); r++ {
     for c := 0; c < len(currentBlock[r]); c++ {
       screan[r][c] = currentBlock[r][c]
+      currentBlock[r][c] = 0
     }
   }
 }

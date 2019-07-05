@@ -20,6 +20,8 @@ func drawBlock(x, y int, block Block) {
   point := block.Point
   display := []rune(block.Display)[0]
 
+  clearCurrentBlock()
+
   for r := 0; r < len(point); r++ {
     for c := 0; c < len(point[r]); c++ {
       if point[r][c] {
@@ -30,6 +32,13 @@ func drawBlock(x, y int, block Block) {
   }
 }
 
+func clearCurrentBlock() {
+  for r := 0; r < len(currentBlock); r++ {
+    for c := 0; c < len(currentBlock[r]); c++ {
+      currentBlock[r][c] = 0
+    }
+  }
+}
 
 /*********  ブロック定義 *********/
 

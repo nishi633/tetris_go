@@ -100,9 +100,15 @@ func KeyEventLoop(kch chan termbox.Key) {
           case termbox.KeyEsc:
             os.Exit(0)
           case termbox.KeyArrowLeft:
-              //左キーを押された時の処理
+            //左キーを押された時の処理
+            if x > frame["left"] {
+              x -= 1
+            }
           case termbox.KeyArrowRight:
-              //右キーを押された時の処理
+            //右キーを押された時の処理
+            if x < DisplayX - frame["right"] - len(block.Point) - 1{
+              x += 1
+            }
           default:
           }
       default:

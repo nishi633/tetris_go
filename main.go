@@ -39,7 +39,7 @@ func main() {
     // 各落下ブロックの初期設定
     block = nextTetrimino()
     x = DisplayX/2 - len(block.Point[0])/2 - 1
-    y = frame["y"]
+    y = frame["top"]
 
 LOOP:
     for {
@@ -49,7 +49,7 @@ LOOP:
       case <-timerCh:
         break
       case <- blockCh:
-        captureBlock()
+    //    captureBlock()
         break LOOP
       default:
         break

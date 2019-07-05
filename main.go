@@ -10,7 +10,7 @@ const(
   DisplayX = 20
   DisplayY = 30
   Coldef = termbox.ColorDefault
-  FallSpan = 100 * time.Millisecond
+  FallSpan = 300 * time.Millisecond
   StrWidth = 2 //文字幅
 )
 
@@ -64,20 +64,11 @@ LOOP:
 func TimerLoop(tch, bch chan bool) {
 	for {
 		tch <- true
-    y += 1
+    shift := 1
 
     // ブロックがぶつからないか確認してから落下
-    canFall := true
-    for r := 0; r < len(block.Point); r++ {
-      for c := 0; c < len(block.Point[r]); c++ {
-        if screan[y + r][x + c] != 0 {
-          canFall = false
-          break
-        }
-      }
-    }
-
-    if canFall {
+    if canFall(shift) {
+      y += shift
       termbox.Clear(Coldef, Coldef)
       drawScrean()
       drawBlock(x, y, block)
@@ -88,6 +79,20 @@ func TimerLoop(tch, bch chan bool) {
       bch <- true
     }
 	}
+}
+
+
+func canFall(shift int) bool {
+  isMove := true
+  for r := 0; r < len(block.Point); r++ {
+    for c := 0; c < len(block.Point[r]); c++ {
+      if screan[y + r + shift][x + c] != 0 {
+        isMove = false
+        break
+      }
+    }
+  }
+  return isMove
 }
 
 //キーイベント
@@ -108,6 +113,12 @@ func KeyEventLoop(kch chan termbox.Key) {
             //右キーを押された時の処理
             if x < DisplayX - frame["right"] - len(block.Point) - 1{
               x += 1
+            }
+          case termbox.KeyArrowDown:
+            //下キーを押された時の処理
+            shift := 2
+            if canFall(shift) {
+              y += shift
             }
           default:
           }

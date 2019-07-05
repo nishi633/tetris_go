@@ -33,6 +33,7 @@ func main() {
   go TimerLoop(timerCh, blockCh)
   go KeyEventLoop(keyCh)
 
+  mainScrean()
   // メインの処理ループ
   // 該当チャンネルになにか来ればなにかするし、来なければbreak
   for {
@@ -40,7 +41,6 @@ func main() {
     block = nextTetrimino()
     x = DisplayX/2 - len(block.Point[0])/2 - 1
     y = frame["top"]
-    mainScrean()
 
 LOOP:
     for {

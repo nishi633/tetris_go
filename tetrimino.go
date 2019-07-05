@@ -13,7 +13,6 @@ func nextTetrimino() Block {
   rand.Seed(time.Now().UnixNano())
   i := rand.Intn(len(blockList))
   return blockList[i]
-
 }
 
 func drawBlock(x, y int, block Block) {

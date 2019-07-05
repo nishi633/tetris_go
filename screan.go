@@ -50,7 +50,9 @@ func drawScrean() {
 func captureBlock() {
   for r := 0; r < len(currentBlock); r++ {
     for c := 0; c < len(currentBlock[r]); c++ {
-      screan[r][c] = currentBlock[r][c]
+      if currentBlock[r][c] != 0 {
+        screan[r][c] = currentBlock[r][c]
+      }
     }
   }
 }

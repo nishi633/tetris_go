@@ -6,6 +6,8 @@ import(
   "github.com/nsf/termbox-go"
 )
 
+var currentBlock [DisplayY][DisplayX] rune
+
 // 次に落ちてくるブロック
 func nextTetrimino() Block {
   rand.Seed(time.Now().UnixNano())
@@ -21,7 +23,8 @@ func drawBlock(x, y int, block Block) {
   for r := 0; r < len(point); r++ {
     for c := 0; c < len(point[r]); c++ {
       if point[r][c] {
-        termbox.SetCell((x+c)*strWidth, y+r, display, coldef, coldef)
+        currentBlock[y+r][x+c] = display
+        termbox.SetCell((x+c)*StrWidth, y+r, display, Coldef, Coldef)
       }
     }
   }

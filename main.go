@@ -7,17 +7,17 @@ import (
 )
 
 const(
-  displayRow = 20
-  displayColumn = 30
-  coldef = termbox.ColorDefault
-  fallSpan = 100 * time.Millisecond
-  strWidth = 2
+  DisplayX = 20
+  DisplayY = 30
+  Coldef = termbox.ColorDefault
+  FallSpan = 100 * time.Millisecond
+  StrWidth = 2 //文字幅
 )
 
 var (
-  screan [displayRow]string
   block Block
-  count int = 0
+  x int
+  y int
 )
 
 func main() {
@@ -36,7 +36,12 @@ func main() {
   // メインの処理ループ
   // 該当チャンネルになにか来ればなにかするし、来なければbreak
   for {
-      block = nextTetrimino()
+    // 各落下ブロックの初期設定
+    block = nextTetrimino()
+    x = DisplayX/2 - len(block.Point[0])/2 - 1
+    y = frame["y"]
+
+LOOP:
     for {
       select {
       case <-keyCh:
@@ -44,9 +49,8 @@ func main() {
       case <-timerCh:
         break
       case <- blockCh:
-        // この状態を次のターンに引き継ぐ
-        captureScrean()
-        break
+        captureBlock()
+        break LOOP
       default:
         break
       }
@@ -59,17 +63,26 @@ func main() {
 func TimerLoop(tch, bch chan bool) {
 	for {
 		tch <- true
-    count += 1
+    y += 1
 
-    fallHeight := displayColumn - frame["botton"] - 1
+    // ブロックがぶつからないか確認してから落下
+    canFall := true
+    for r := 0; r < len(block.Point); r++ {
+      for c := 0; c < len(block.Point[r]); c++ {
+        if screan[y + r][x + c] != 0 {
+          canFall = false
+          break
+        }
+      }
+    }
 
-    if count < fallHeight {
-      termbox.Clear(coldef, coldef)
+    if canFall {
+      termbox.Clear(Coldef, Coldef)
       mainScrean()
-      drawBlock(displayRow/2 - 1, count, block)
+      drawBlock(x, y, block)
       termbox.Flush()
 
-		  time.Sleep(fallSpan)
+		  time.Sleep(FallSpan)
     } else {
       bch <- true
     }

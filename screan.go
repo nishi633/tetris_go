@@ -5,7 +5,7 @@ import(
 )
 
 var (
-  frame = map[string]int { "top": 2, "botton": 2, "rignt": 2, "left": 2 }
+  frame = map[string]int { "top": 2, "botton": 5, "right": 2, "left": 2 }
   wall = "⬜"
   screan [DisplayY][DisplayX] rune
 )
@@ -21,7 +21,7 @@ func mainScrean() {
   }
 
   for r := 0; r < DisplayY; r++ {
-    for c := DisplayX - frame["botton"]; c < DisplayX; c++ {
+    for c := DisplayX - frame["right"]; c < DisplayX; c++ {
       screan[r][c] = wallRune
     }
   }
@@ -32,7 +32,7 @@ func mainScrean() {
     }
   }
 
-  for r := DisplayY - frame["left"]; r < DisplayY; r++ {
+  for r := DisplayY - frame["botton"]; r < DisplayY; r++ {
     for c := 0; c < DisplayX; c++ {
       screan[r][c] = wallRune
     }

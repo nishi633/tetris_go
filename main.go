@@ -63,7 +63,7 @@ LOOP:
 // ブロックを下に落とす
 func TimerLoop(tch, bch chan bool) {
 	for {
-		tch <- true
+		tch <- true //これは必要ある？
     shift := 1
 
     // ブロックがぶつからないか確認してから落下
@@ -97,6 +97,7 @@ func canFall(shift int) bool {
 
 //キーイベント
 // exit処理
+// kch使ってないかも？
 func KeyEventLoop(kch chan termbox.Key) {
 	for {
       switch ev := termbox.PollEvent(); ev.Type {

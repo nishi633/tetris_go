@@ -39,6 +39,24 @@ func clearCurrentBlock() {
   }
 }
 
+func turn(input Block) Block {
+  point := input.Point
+  newRow := len(point[0])
+  newColumn := len(point)
+  block.Point = make([][]bool, newRow)
+  // 初期化
+  for r := 0; r < newRow; r++ {
+    block.Point[r] = make([]bool, newColumn)
+  }
+  // ブロック設定
+  for r := 0; r < len(point); r++ {
+    for c := 0; c < len(point[r]); c++ {
+      block.Point[c][r] = point[r][c]
+    }
+  }
+  return block
+}
+
 /*********  ブロック定義 *********/
 
 type Block struct {
@@ -112,3 +130,4 @@ var j = Block {
     { true, true },
   },
 }
+

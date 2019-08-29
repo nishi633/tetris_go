@@ -121,6 +121,9 @@ func KeyEventLoop(kch chan termbox.Key) {
             if canFall(shift) {
               y += shift
             }
+          case termbox.KeySpace:
+            // Spaceキーを押された時の処理
+            block = turn(block)
           default:
           }
       default:

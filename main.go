@@ -30,8 +30,8 @@ func main() {
 	blockCh := make(chan bool)
 
   // 処理を待ち受けるために用意する
-  go TimerLoop(timerCh, blockCh)
-  go KeyEventLoop(keyCh)
+  go timerLoop(timerCh, blockCh)
+  go keyEventLoop()
 
   mainScrean()
   // メインの処理ループ
@@ -61,13 +61,14 @@ LOOP:
 
 //タイマーイベント
 // ブロックを下に落とす
-func TimerLoop(tch, bch chan bool) {
+func timerLoop(tch, bch chan bool) {
 	for {
 		tch <- true //これは必要ある？
     shift := 1
 
     // ブロックがぶつからないか確認してから落下
     if canFall(shift) {
+      deleteLine()
       y += shift
       termbox.Clear(Coldef, Coldef)
       drawScrean()
@@ -81,13 +82,15 @@ func TimerLoop(tch, bch chan bool) {
 	}
 }
 
-
+// canFall ブロックが落下できるか判定
 func canFall(shift int) bool {
   isMove := true
   for r := 0; r < len(block.Point); r++ {
     for c := 0; c < len(block.Point[r]); c++ {
+      // TODO: shiftが1以上のときには落とせるだけ落とすようにする
       if block.Point[r][c] && screan[y + r + shift][x + c] != 0 {
         isMove = false
+        pile()
         break
       }
     }
@@ -95,10 +98,8 @@ func canFall(shift int) bool {
   return isMove
 }
 
-//キーイベント
-// exit処理
-// kch使ってないかも？
-func KeyEventLoop(kch chan termbox.Key) {
+// keyEventLoop キーイベント設定
+func keyEventLoop() {
 	for {
       switch ev := termbox.PollEvent(); ev.Type {
       case termbox.EventKey:
@@ -112,7 +113,7 @@ func KeyEventLoop(kch chan termbox.Key) {
             }
           case termbox.KeyArrowRight:
             //右キーを押された時の処理
-            if x + len(block.Point) < DisplayX - frame["right"] - 1 {
+            if x + len(block.Point[0]) < DisplayX - frame["right"] {
               x += 1
             }
           case termbox.KeyArrowDown:

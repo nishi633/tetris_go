@@ -101,7 +101,7 @@ termbox.EventKey
 
 ```
 termbox.KeyEsc
-``
+```
 
 
 # 作り方
